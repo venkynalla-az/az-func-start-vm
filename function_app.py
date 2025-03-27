@@ -1,11 +1,12 @@
 from azure.identity import DefaultAzureCredential
+from azure.identity import ClientSecretCredential
 from azure.mgmt.compute import ComputeManagementClient
 from azure.core.exceptions import ResourceNotFoundError
 
 import azure.functions as func
 import logging
 
-app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
+app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
 
 
 @app.route(route="http_trigger")
@@ -26,7 +27,8 @@ def start_vm(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         # Create a default Azure credential (e.g., from environment or Managed Identity)
-        credential = DefaultAzureCredential()
+        #credential = DefaultAzureCredential()
+        credential = ClientSecretCredential("60943e68-a81c-460d-a797-6cf9d649f2ec", "26df0f3c-dde6-41cd-ac37-f4e3352491d7", "s2z8Q~sBdfIUCy.3tEF-Uy5EzvFXJUs-4XPFAbfk")
 
         # Create the Compute Management client
         compute_client = ComputeManagementClient(credential, subscription_id)
